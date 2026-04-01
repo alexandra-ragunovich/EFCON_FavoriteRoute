@@ -7,6 +7,7 @@ import com.favorite_route.favorite_route.entity.SavedRouteEntity;
 import com.favorite_route.favorite_route.entity.SavedRouteSegmentEntity;
 import com.favorite_route.favorite_route.mapper.FavoriteRouteMapper;
 import com.favorite_route.favorite_route.repository.FavoriteRouteRepository;
+import com.favorite_route.favorite_route.grpc.DiaryGrpcClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class FavoriteService {
 
     private final FavoriteRouteRepository favoriteRouteRepository;
     private  final FavoriteRouteMapper favoriteRouteMapper;
+    private final DiaryGrpcClient diaryGrpcClient;
 
     @Transactional
     public FavoriteRouteResponse saveFavoriteRoute(Long userId, FavoriteRouteRequest favoriteRouteRequest){
@@ -62,20 +64,27 @@ public class FavoriteService {
 
         Set<String> visitedPlaces = new LinkedHashSet<>();
 
-        if (route.getSegments() != null ) {
 
-            for (SavedRouteSegmentEntity segment : route.getSegments()) {
-                visitedPlaces.add(segment.getToCity() + ", " + segment.getToCountry());
-            }
+      for(SavedRouteSegmentEntity segment : route.getSegments()){
 
-        }
+            String cityInfo= segment.getToCity();
+            String title=String.format("Моя остановка в %s (%s) ", segment.getToCity(),segment.getToCountry() );
+            String content = String.format("Я посетил это место во время путешествия из %s в %s.\n",
+                    route.getOriginCity(), route.getDestinationCity());
 
-        for (String place : visitedPlaces) {
+            content += String.format("Сюда я добрался из %s на транспорте: %s. Расстояние составило %.1f км.\n",
+                    segment.getFromCity(), segment.getTransportType(), segment.getDistanceKm());
 
-            System.out.println("Локации: " + place);
-            System.out.println("Моя остановка в " + place);
-            System.out.println("Текст: Я посетил это место во время путешествия из " + route.getOriginCity() + " в " + route.getDestinationCity() + ".");
-            System.out.println("---------------------------------------------------");
+          Long postId = diaryGrpcClient.createDiaryPost(
+                  userId,
+                  title,
+                  content,
+                  cityInfo,
+                  String.valueOf(segment.getDurationHours()) + " ч."
+          );
+          segment.setLinkedPostId(postId);
+
+          System.out.println("Создан пост ID=" + postId + " для локации: " + cityInfo);
 
         }
 

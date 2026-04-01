@@ -28,6 +28,7 @@ public class SavedRouteSegmentEntity {
     public final static String FROM_COUNTRY = "from_country";
     public final static String TO_CITY = "to_city";
     public final static String TO_COUNTRY = "to_country";
+    public final static String LINKED_POST_ID = "linked_post_id";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -64,6 +65,9 @@ public class SavedRouteSegmentEntity {
 
     @Column(name=CO2_EMISSION_KG)
     private double co2EmissionKg;
+
+    @Column(name = LINKED_POST_ID)
+    private Long linkedPostId;
 
 
 }

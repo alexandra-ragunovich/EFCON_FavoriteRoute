@@ -23,7 +23,6 @@ public class FavoriteRouteResponse {
     private double totalDurationHours;
     private String aiAdviceText;
     private String status;
-    private Long linkedPostId;
     private LocalDateTime createdAt;
 
     private List<FavoriteRouteSegmentResponse> segments;

@@ -10,7 +10,7 @@ CREATE TABLE saved_routes (
     total_duration_hours DOUBLE PRECISION NOT NULL,
     ai_advice_text TEXT,
     status VARCHAR(50) NOT NULL DEFAULT 'PLANNED',
-    linked_post_id BIGINT,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -26,6 +26,7 @@ CREATE TABLE saved_route_segments (
     total_duration_hours DOUBLE PRECISION NOT NULL,
     distance_km DOUBLE PRECISION NOT NULL,
     co2_emission_kg DOUBLE PRECISION NOT NULL,
+    linked_post_id BIGINT,
 
 
     CONSTRAINT fk_saved_route FOREIGN KEY (route_id) REFERENCES saved_routes (id) ON DELETE CASCADE

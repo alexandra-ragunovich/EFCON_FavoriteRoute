@@ -26,7 +26,6 @@ public class SavedRouteEntity {
     public final static String TOTAL_DURATION_HOURS="total_duration_hours";
     public final static String AI_ADVICE_TEXT="ai_advice_text";
     public final static String STATUS="status";
-    public final static String LINKED_POST_ID="linked_post_id";
     public final static String CREATED_AT="created_at";
     public final static String ORIGIN_CITY = "origin_city";
     public final static String ORIGIN_COUNTRY = "origin_country";
@@ -70,8 +69,6 @@ public class SavedRouteEntity {
     @Enumerated(EnumType.STRING)
     private RouteStatus status = RouteStatus.PLANNED;
 
-    @Column(name = LINKED_POST_ID)
-    private Long linkedPostId;
 
     @Column(name=CREATED_AT)
     @CreationTimestamp

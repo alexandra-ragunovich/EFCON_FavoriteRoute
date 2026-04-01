@@ -18,4 +18,5 @@ public class FavoriteRouteSegmentResponse {
     private double distanceKm;
     private double durationHours;
     private double co2EmissionKg;
+    private Long linkedPostId;
 }

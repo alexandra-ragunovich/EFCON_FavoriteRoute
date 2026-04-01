@@ -77,7 +77,6 @@ public class FavoriteRouteMapper {
         favoriteRouteResponse.setTotalDurationHours(entity.getTotalDurationHours());
         favoriteRouteResponse.setAiAdviceText(entity.getAiAdviceText());
         favoriteRouteResponse.setStatus(entity.getStatus() != null ? entity.getStatus().name() : null);
-        favoriteRouteResponse.setLinkedPostId(entity.getLinkedPostId());
         favoriteRouteResponse.setCreatedAt(entity.getCreatedAt());
 
         if (entity.getSegments() != null) {
@@ -109,6 +108,7 @@ public class FavoriteRouteMapper {
         response.setDistanceKm(entity.getDistanceKm());
         response.setDurationHours(entity.getDurationHours());
         response.setCo2EmissionKg(entity.getCo2EmissionKg());
+        response.setLinkedPostId(entity.getLinkedPostId());
 
         return response;
     }
