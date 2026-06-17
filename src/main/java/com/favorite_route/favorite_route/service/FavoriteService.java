@@ -62,9 +62,6 @@ public class FavoriteService {
             throw new RuntimeException("Опубликовать можно только завершенные поездки (статус COMPLETED)");
         }
 
-        Set<String> visitedPlaces = new LinkedHashSet<>();
-
-
       for(SavedRouteSegmentEntity segment : route.getSegments()){
 
             String cityInfo= segment.getToCity();

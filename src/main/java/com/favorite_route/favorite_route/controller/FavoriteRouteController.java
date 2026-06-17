@@ -9,44 +9,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/favorite")
+@RequestMapping("/api/favorite") // Добавил слэш в начале для надежности роутинга
 @RequiredArgsConstructor
 public class FavoriteRouteController {
 
     private final FavoriteService favoriteService;
 
     @PostMapping()
-    public FavoriteRouteResponse saveFavoriteRoute(@RequestParam Long userId,
-                                                   @RequestBody FavoriteRouteRequest favoriteRouteRequest){
-        return favoriteService.saveFavoriteRoute(userId,favoriteRouteRequest);
+    public FavoriteRouteResponse saveFavoriteRoute(
+            @RequestHeader("X-User-Id") Long userId,
+            @RequestBody FavoriteRouteRequest favoriteRouteRequest) {
+        return favoriteService.saveFavoriteRoute(userId, favoriteRouteRequest);
     }
 
     @GetMapping()
-    public List<FavoriteRouteResponse> getFavoriteRoutes(@RequestParam Long userId){
+    public List<FavoriteRouteResponse> getFavoriteRoutes(
+            @RequestHeader("X-User-Id") Long userId) {
         return favoriteService.getFavoriteRoutes(userId);
     }
 
     @PatchMapping("/{routeId}/complete")
     public FavoriteRouteResponse markRouteAsCompleted(
-            @RequestParam Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long routeId) {
-
         return favoriteService.markRouteAsCompleted(userId, routeId);
     }
 
     @PostMapping("/{routeId}/publish")
     public FavoriteRouteResponse publishRouteToDiary(
-            @RequestParam Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long routeId) {
         return favoriteService.publishRouteToDiary(userId, routeId);
     }
 
-
     @DeleteMapping("/{routeId}")
     public void deleteFavoriteRoute(
-            @RequestParam Long userId,
+            @RequestHeader("X-User-Id") Long userId,
             @PathVariable Long routeId) {
-
         favoriteService.deleteFavoriteRoute(userId, routeId);
     }
 
